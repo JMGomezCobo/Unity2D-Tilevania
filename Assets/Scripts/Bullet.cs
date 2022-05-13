@@ -1,38 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
+using Tilevania.Player;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+namespace Tilevania
 {
-    [SerializeField] float bulletSpeed = 20f;
-    Rigidbody2D myRigidbody;
-    PlayerMovement player;
-    float xSpeed;
+    public class Bullet : MonoBehaviour
+    {
+        [SerializeField] private float bulletSpeed = 20f;
     
-    void Start()
-    {
-        myRigidbody = GetComponent<Rigidbody2D>();
-        player = FindObjectOfType<PlayerMovement>();
-        xSpeed = player.transform.localScale.x * bulletSpeed;
-    }
+        private Rigidbody2D myRigidbody;
+        private PlayerMovement player;
+    
+        private float xSpeed;
 
-    void Update()
-    {
-        myRigidbody.velocity = new Vector2 (xSpeed, 0f);
-    }
-
-    void OnTriggerEnter2D(Collider2D other) 
-    {
-        if(other.tag == "Enemy")
+        private void Start()
         {
-            Destroy(other.gameObject);
+            myRigidbody = GetComponent<Rigidbody2D>();
+            player = FindObjectOfType<PlayerMovement>();
+            xSpeed = player.transform.localScale.x * bulletSpeed;
         }
-        Destroy(gameObject);
-    }
 
-    void OnCollisionEnter2D(Collision2D other) 
-    {
-        Destroy(gameObject);    
-    }
+        private void Update()
+        {
+            myRigidbody.velocity = new Vector2 (xSpeed, 0f);
+        }
 
+        private void OnTriggerEnter2D(Collider2D other) 
+        {
+            if (other.CompareTag("Enemy"))
+            {
+                Destroy(other.gameObject);
+            }
+        
+            Destroy(gameObject);
+        }
+
+        private void OnCollisionEnter2D(Collision2D other) 
+        {
+            Destroy(gameObject);    
+        }
+    }
 }

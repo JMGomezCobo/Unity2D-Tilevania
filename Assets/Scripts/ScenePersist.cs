@@ -1,23 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ScenePersist : MonoBehaviour
+namespace Tilevania
 {
-   void Awake()
+    public class ScenePersist : MonoBehaviour
     {
-        int numScenePersists = FindObjectsOfType<ScenePersist>().Length;
-        if (numScenePersists > 1)
+        private void Awake()
+        {
+            var numScenePersists = FindObjectsOfType<ScenePersist>().Length;
+        
+            if (numScenePersists > 1)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                DontDestroyOnLoad(gameObject);
+            }
+        }
+        
+        public void ResetScenePersist()
         {
             Destroy(gameObject);
         }
-        else
-        {
-            DontDestroyOnLoad(gameObject);
-        }
-    }
-    public void ResetScenePersist()
-    {
-        Destroy(gameObject);
     }
 }
